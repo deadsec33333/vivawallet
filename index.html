@@ -50,52 +50,39 @@
     /* Carousel keyframes */
     @keyframes marquee {
       0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      100% { transform: translateX(-90%); }
     }
     @keyframes fadeUp {
       0%   { opacity: 0; transform: translateY(20px); }
       100% { opacity: 1; transform: translateY(0); }
     }
- .carousel:hover .carousel-track {
-  animation-play-state: paused;
-}
 
-
- .carousel {
-    width: 100%;
-    height: 14rem;
-    overflow: hidden;
-    position: relative;
-    margin: 0.25rem 0;            
-  }
-.carousel-track {
-  display: flex;
-  align-items: center;
-  animation: marquee 90s linear infinite;
-}
-  .carousel-track img {
-    flex: 0 0 calc((100% - 10rem)/5);
-    margin: 0 0.5rem;
-    width: auto;
-    height: 14rem;       
-    opacity: 0;
-    animation: fadeUp 0.8s ease-out forwards;
-    animation-delay: calc(0.15s * var(--i));
-  }
-  .carousel-track img[alt="CoinGecko"] {
-   height: 5rem;
-   margin-top: 0.5rem; 
-}
-
-  @keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-90%); }
-}
-  @keyframes fadeUp {
-    0%   { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-</style>
+    .carousel {
+      width: 100%;
+      height: 14rem;
+      overflow: hidden;
+      position: relative;
+      margin: 0.25rem 0;
+    }
+    .carousel-track {
+      display: flex;
+      align-items: center;
+      animation: marquee 90s linear infinite;
+    }
+    .carousel-track img {
+      flex: 0 0 calc((100% - 10rem)/5);
+      margin: 0 0.5rem;
+      width: auto;
+      height: 14rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease-out forwards;
+      animation-delay: calc(0.15s * var(--i));
+    }
+    .carousel-track img[alt="CoinGecko"] {
+      height: 5rem;
+      margin-top: 0.5rem;
+    }
+  </style>
   
   <!-- Lottie Player -->
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
@@ -103,14 +90,17 @@
 <body class="bg-black text-white font-sans">
 
   <!-- Navbar -->
-  <nav class="fixed w-full bg-[#07052b]/90 backdrop-filter backdrop-blur-lg text-white z-50">
+  <nav class="fixed w-full bg-transparent backdrop-filter backdrop-blur-lg text-white z-50">
     <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-      <div class="text-2xl font-bold">VivaWallet</div>
+      <a href="/" class="flex items-center space-x-2">
+        <img src="logos/viva logo.svg" alt="VivaWallet Logo" class="w-8 h-8"/>
+        <span class="text-2xl font-bold">VivaWallet</span>
+      </a>
       <div class="space-x-6">
         <a href="#about" class="hover:text-gray-300">About Us</a>
         <a href="#services" class="hover:text-gray-300">Wallet</a>
-        <a href="#services" class="hover:text-gray-300">Crypto Loans</a>
-        <a href="#services" class="hover:text-gray-300">Web3</a>
+        <a href="#services" class="hover:text-gray-300">Features</a>
+        <a href="#services" class="hover:text-gray-300">Blogs</a>
       </div>
     </div>
   </nav>
@@ -123,7 +113,6 @@
           src="Jsons/First.json"
           background="transparent"
           speed="1"
-          loop
           autoplay
           renderer="svg"
           class="w-32 h-32"
@@ -134,24 +123,26 @@
         <p class="text-lg sm:text-xl">
           VivaWallet keeps your digital assets safe and accessible, with a user-friendly experience for everyone.
         </p>
-        <a
-          href="https://mevx.io/"
-          class="inline-block px-6 py-3 bg-white text-black font-semibold rounded-lg transform transition hover:scale-105 button-glow"
-        >
-          Buy Project
-        </a>
+      <a
+  href="https://mevx.io/"
+  target="_blank"
+  rel="noopener noreferrer"
+  class="inline-block px-6 py-3 bg-white text-black font-semibold rounded-lg transform transition hover:scale-105 button-glow"
+>
+  Buy Project
+</a>
       </div>
-<div class="flex justify-center md:justify-end">
-  <lottie-player
-    src="Jsons/web 3.json"
-    background="transparent"
-    speed="1"
-    loop
-    autoplay
-    renderer="svg"
-    class="w-full max-w-md md:max-w-xl h-auto md:h-96 mb-4 transform md:translate-x-20"
-  ></lottie-player>
-</div>
+      <div class="flex justify-center md:justify-end">
+        <lottie-player
+          src="Jsons/web 3.json"
+          background="transparent"
+          speed="1"
+          loop
+          autoplay
+          renderer="svg"
+          class="w-full max-w-md md:max-w-xl h-auto md:h-96 mb-4 transform md:translate-x-20"
+        ></lottie-player>
+      </div>
     </div>
   </section>
 
@@ -166,108 +157,57 @@
   </section>
 
   <!-- Our Solutions & Bottom Carousel -->
-<section id="services" class="py-4 border-t border-gray-700 bg-darkbg">
-  <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-8">Our Solutions</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-2">
-      <!-- Wallet -->
-      <div class="p-8 bg-black/50 backdrop-blur-md rounded-2xl border border-gray-500 hover:border-gray-400 shadow-lg transition hover:scale-105">
-        <lottie-player src="Jsons/wallet animation.json" background="transparent" speed="1" loop autoplay renderer="svg" class="w-20 h-20 mx-auto mb-4"></lottie-player>
-        <h3 class="font-semibold text-xl mb-2">Wallet</h3>
-        <p class="text-gray-300">Store, send, and receive digital assets with industry-leading encryption and user-friendly interfaces across devices.</p>
+  <section id="services" class="py-4 border-t border-gray-700 bg-darkbg">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-8">Our Solutions</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-2">
+        <!-- Wallet -->
+        <div class="p-8 bg-black/50 backdrop-blur-md rounded-2xl border border-gray-500 hover:border-gray-400 shadow-lg transition hover:scale-105">
+          <lottie-player src="Jsons/wallet animation.json" background="transparent" speed="1" loop autoplay renderer="svg" class="w-20 h-20 mx-auto mb-4"></lottie-player>
+          <h3 class="font-semibold text-xl mb-2">Wallet</h3>
+          <p class="text-gray-300">Store, send, and receive digital assets with industry-leading encryption and user-friendly interfaces across devices.</p>
+        </div>
+        <!-- Crypto Loans -->
+        <div class="p-8 bg-black/50 backdrop-blur-md rounded-2xl border border-gray-500 hover:border-gray-400 shadow-lg transition hover:scale-105">
+          <lottie-player src="Jsons/logo.json" background="transparent" speed="1" loop autoplay renderer="svg" class="w-20 h-20 mx-auto mb-4"></lottie-player>
+          <h3 class="font-semibold text-xl mb-2">Crypto Loans</h3>
+          <p class="text-gray-300">Leverage your crypto holdings to secure fast, transparent loans without credit checks or hidden fees.</p>
+        </div>
+        <!-- Web3 -->
+        <div class="p-8 bg-black/50 backdrop-blur-md rounded-2xl border border-gray-500 hover:border-gray-400 shadow-lg transition hover:scale-105">
+          <lottie-player src="Jsons/web 3 animation.json" background="transparent" speed="1" loop autoplay renderer="svg" class="w-20 h-20 mx-auto mb-4"></lottie-player>
+          <h3 class="font-semibold text-xl mb-2">Web3</h3>
+          <p class="text-gray-300">Seamlessly interact with decentralized applications and smart contracts directly from your wallet.</p>
+        </div>
       </div>
-      <!-- Crypto Loans -->
-      <div class="p-8 bg-black/50 backdrop-blur-md rounded-2xl border border-gray-500 hover:border-gray-400 shadow-lg transition hover:scale-105">
-        <lottie-player src="Jsons/logo.json" background="transparent" speed="1" loop autoplay renderer="svg" class="w-20 h-20 mx-auto mb-4"></lottie-player>
-        <h3 class="font-semibold text-xl mb-2">Crypto Loans</h3>
-        <p class="text-gray-300">Leverage your crypto holdings to secure fast, transparent loans without credit checks or hidden fees.</p>
+      <!-- carousel -->
+      <div class="carousel">
+        <div id="carousel-track" class="carousel-track"></div>
       </div>
-     <!-- Web3 -->
-      <div class="p-8 bg-black/50 backdrop-blur-md rounded-2xl border border-gray-500 hover:border-gray-400 shadow-lg transition hover:scale-105">
-        <lottie-player src="Jsons/web 3 animation.json" background="transparent" speed="1" loop autoplay renderer="svg" class="w-20 h-20 mx-auto mb-4"></lottie-player>
-        <h3 class="font-semibold text-xl mb-2">Web3</h3>
-        <p class="text-gray-300">Seamlessly interact with decentralized applications and smart contracts directly from your wallet.</p>
-      </div>
+      <script>
+        (function(){
+          const items = [
+            { src: "Untitled_design_42.png", alt: "Dex Screener" },
+            { src: "Untitled_design_43.png", alt: "Solana" },
+            { src: "Untitled_design_44.png", alt: "CoinMarketCap" },
+            { src: "Untitled_design_45.png", alt: "CoinTracker" },
+            { src: "Untitled_design_46.png", alt: "J.P. Morgan" },
+            { src: "Binance-Logo.png",     alt: "Binance" },
+            { src: "CoinGecko.png",        alt: "CoinGecko" }
+          ];
+          const track = document.getElementById("carousel-track");
+          for (let i = 1; i <= 140; i++) {
+            const { src, alt } = items[(i - 1) % items.length];
+            const img = document.createElement("img");
+            img.style.setProperty("--i", i);
+            img.src = `sliding wheel/${src}`;
+            img.alt = alt;
+            track.appendChild(img);
+          }
+        })();
+      </script>
     </div>
-    <!-- carousel -->
-  <div class="carousel">
-  <div class="carousel-track">
-    <img style="--i:1"  src="sliding wheel/Untitled_design_42.png" alt="Dex Screener" />
-    <img style="--i:2"  src="sliding wheel/Untitled_design_43.png" alt="Solana" />
-    <img style="--i:3"  src="sliding wheel/Untitled_design_44.png" alt="CoinMarketCap" />
-    <img style="--i:4"  src="sliding wheel/Untitled_design_45.png" alt="CoinTracker" />
-    <img style="--i:5"  src="sliding wheel/Untitled_design_46.png" alt="J.P. Morgan" />
-    <img style="--i:6"  src="sliding wheel/Binance-Logo.png" alt="Binance" />
-    <img style="--i:7"  src="sliding wheel/CoinGecko.png" alt="CoinGecko" />
-    <img style="--i:8"  src="sliding wheel/Untitled_design_42.png" alt="Dex Screener" />
-    <img style="--i:9"  src="sliding wheel/Untitled_design_43.png" alt="Solana" />
-    <img style="--i:10" src="sliding wheel/Untitled_design_44.png" alt="CoinMarketCap" />
-    <img style="--i:11" src="sliding wheel/Untitled_design_45.png" alt="CoinTracker" />
-    <img style="--i:12" src="sliding wheel/Untitled_design_46.png" alt="J.P. Morgan" />
-    <img style="--i:13" src="sliding wheel/Binance-Logo.png" alt="Binance" />
-    <img style="--i:14" src="sliding wheel/CoinGecko.png" alt="CoinGecko" />
-    <img style="--i:15" src="sliding wheel/Untitled_design_42.png" alt="Dex Screener" />
-    <img style="--i:16" src="sliding wheel/Untitled_design_43.png" alt="Solana" />
-    <img style="--i:17" src="sliding wheel/Untitled_design_44.png" alt="CoinMarketCap" />
-    <img style="--i:18" src="sliding wheel/Untitled_design_45.png" alt="CoinTracker" />
-    <img style="--i:19" src="sliding wheel/Untitled_design_46.png" alt="J.P. Morgan" />
-    <img style="--i:20" src="sliding wheel/Binance-Logo.png" alt="Binance" />
-    <img style="--i:21" src="sliding wheel/CoinGecko.png" alt="CoinGecko" />
-    <img style="--i:22" src="sliding wheel/Untitled_design_42.png" alt="Dex Screener" />
-    <img style="--i:23" src="sliding wheel/Untitled_design_43.png" alt="Solana" />
-    <img style="--i:24" src="sliding wheel/Untitled_design_44.png" alt="CoinMarketCap" />
-    <img style="--i:25" src="sliding wheel/Untitled_design_45.png" alt="CoinTracker" />
-    <img style="--i:26" src="sliding wheel/Untitled_design_46.png" alt="J.P. Morgan" />
-    <img style="--i:27" src="sliding wheel/Binance-Logo.png" alt="Binance" />
-    <img style="--i:28" src="sliding wheel/CoinGecko.png" alt="CoinGecko" />
-    <img style="--i:29" src="sliding wheel/Untitled_design_42.png" alt="Dex Screener" />
-    <img style="--i:30" src="sliding wheel/Untitled_design_43.png" alt="Solana" />
-    <img style="--i:31" src="sliding wheel/Untitled_design_44.png" alt="CoinMarketCap" />
-    <img style="--i:32" src="sliding wheel/Untitled_design_45.png" alt="CoinTracker" />
-    <img style="--i:33" src="sliding wheel/Untitled_design_46.png" alt="J.P. Morgan" />
-    <img style="--i:34" src="sliding wheel/Binance-Logo.png" alt="Binance" />
-    <img style="--i:35" src="sliding wheel/CoinGecko.png" alt="CoinGecko" />
-    <img style="--i:36" src="sliding wheel/Untitled_design_42.png" alt="Dex Screener" />
-    <img style="--i:37" src="sliding wheel/Untitled_design_43.png" alt="Solana" />
-    <img style="--i:38" src="sliding wheel/Untitled_design_44.png" alt="CoinMarketCap" />
-    <img style="--i:39" src="sliding wheel/Untitled_design_45.png" alt="CoinTracker" />
-    <img style="--i:40" src="sliding wheel/Untitled_design_46.png" alt="J.P. Morgan" />
-    <img style="--i:41" src="sliding wheel/Binance-Logo.png" alt="Binance" />
-    <img style="--i:42" src="sliding wheel/CoinGecko.png" alt="CoinGecko" />
-    <img style="--i:43" src="sliding wheel/Untitled_design_42.png" alt="Dex Screener" />
-    <img style="--i:44" src="sliding wheel/Untitled_design_43.png" alt="Solana" />
-    <img style="--i:45" src="sliding wheel/Untitled_design_44.png" alt="CoinMarketCap" />
-    <img style="--i:46" src="sliding wheel/Untitled_design_45.png" alt="CoinTracker" />
-    <img style="--i:47" src="sliding wheel/Untitled_design_46.png" alt="J.P. Morgan" />
-    <img style="--i:48" src="sliding wheel/Binance-Logo.png" alt="Binance" />
-    <img style="--i:49" src="sliding wheel/CoinGecko.png" alt="CoinGecko" />
-    <img style="--i:50" src="sliding wheel/Untitled_design_42.png" alt="Dex Screener" />
-    <img style="--i:51" src="sliding wheel/Untitled_design_43.png" alt="Solana" />
-    <img style="--i:52" src="sliding wheel/Untitled_design_44.png" alt="CoinMarketCap" />
-    <img style="--i:53" src="sliding wheel/Untitled_design_45.png" alt="CoinTracker" />
-    <img style="--i:54" src="sliding wheel/Untitled_design_46.png" alt="J.P. Morgan" />
-    <img style="--i:55" src="sliding wheel/Binance-Logo.png" alt="Binance" />
-    <img style="--i:56" src="sliding wheel/CoinGecko.png" alt="CoinGecko" />
-    <img style="--i:57" src="sliding wheel/Untitled_design_42.png" alt="Dex Screener" />
-    <img style="--i:58" src="sliding wheel/Untitled_design_43.png" alt="Solana" />
-    <img style="--i:59" src="sliding wheel/Untitled_design_44.png" alt="CoinMarketCap" />
-    <img style="--i:60" src="sliding wheel/Untitled_design_45.png" alt="CoinTracker" />
-    <img style="--i:61" src="sliding wheel/Untitled_design_46.png" alt="J.P. Morgan" />
-    <img style="--i:62" src="sliding wheel/Binance-Logo.png" alt="Binance" />
-    <img style="--i:63" src="sliding wheel/CoinGecko.png" alt="CoinGecko" />
-    <img style="--i:64" src="sliding wheel/Untitled_design_42.png" alt="Dex Screener" />
-    <img style="--i:65" src="sliding wheel/Untitled_design_43.png" alt="Solana" />
-    <img style="--i:66" src="sliding wheel/Untitled_design_44.png" alt="CoinMarketCap" />
-    <img style="--i:67" src="sliding wheel/Untitled_design_45.png" alt="CoinTracker" />
-    <img style="--i:68" src="sliding wheel/Untitled_design_46.png" alt="J.P. Morgan" />
-    <img style="--i:69" src="sliding wheel/Binance-Logo.png" alt="Binance" />
-    <img style="--i:70" src="sliding wheel/CoinGecko.png" alt="CoinGecko" />
-  </div>
-</div>
-
-  </div>
-</section>
-
+  </section>
 
   <!-- Documentation Section -->
   <section id="docs" class="py-20 bg-darkbg">
@@ -283,13 +223,12 @@
         </button>
       </div>
       <lottie-player
-        src="Jsons/html.json"
+        src="Jsons/doc.json"
         background="transparent"
         speed="1"
         loop
         autoplay
         renderer="svg"
-        class="w-full h-64 rounded-2xl shadow-lg transition hover:scale-105"
       ></lottie-player>
     </div>
 
@@ -300,25 +239,25 @@
       <div class="futuristic-window p-8 w-11/12 max-w-5xl max-h-[90vh] overflow-y-auto relative">
         <button id="close-docs" class="absolute top-4 right-4 text-white text-2xl">×</button>
         <div id="docs-content" class="prose prose-invert text-gray-200">
-        <h3>Overview</h3>
-      <p>Welcome to the Crypto APIs Technical Documentation. Below is a detailed breakdown of our core products, each designed to address specific blockchain development needs.</p>
-      
-        <h4>Node as a Service (NaaS)</h4>
-      <p><strong>Purpose:</strong> Deploy scalable blockchain infrastructure with zero operational overhead.</p>
-        <ul>
-        <li><strong>Shared Nodes:</strong> Multi-tenant, cost-effective nodes for lightweight workloads.</li>
-        <li><strong>Dedicated Nodes:</strong> High-performance, isolated nodes for mission-critical applications.</li>
-        <li><strong>Supported Blockchains:</strong> Ethereum, Bitcoin, BNB Chain, Solana, and 20+ others.</li>
-      </ul>
-      <h4>Address Latest</h4>
-       <li><strong>Retrieve real-time address activity</strong> from the past 14 days. Data includes balances, transactions, token holdings.</li>
-        <li><strong>Supported Chains:</strong> Solana, Bitcoin, Ethereum Polygon and 10+ others.</li>
-        <li><strong>Features:</strong> Updates with 1-block confirmation.</li>
+          <h3>Overview</h3>
+          <p>Welcome to the Crypto APIs Technical Documentation. Below is a detailed breakdown of our core products, each designed to address specific blockchain development needs.</p>
+          <h4>Node as a Service (NaaS)</h4>
+          <p><strong>Purpose:</strong> Deploy scalable blockchain infrastructure with zero operational overhead.</p>
+          <ul>
+            <li><strong>Shared Nodes:</strong> Multi-tenant, cost-effective nodes for lightweight workloads.</li>
+            <li><strong>Dedicated Nodes:</strong> High-performance, isolated nodes for mission-critical applications.</li>
+            <li><strong>Supported Blockchains:</strong> Ethereum, Bitcoin, BNB Chain, Solana, and 20+ others.</li>
+          </ul>
+          <h4>Address Latest</h4>
+          <ul>
+            <li><strong>Retrieve real-time address activity</strong> from the past 14 days. Data includes balances, transactions, token holdings.</li>
+            <li><strong>Supported Chains:</strong> Solana, Bitcoin, Ethereum Polygon and 10+ others.</li>
+            <li><strong>Features:</strong> Updates with 1-block confirmation.</li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
-
+  </section>
   <!-- Trusted by -->
 <section id="trusted" class="py-20 bg-darkbg">
   <div class="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
@@ -393,7 +332,7 @@
         <h4 class="font-semibold text-lg mb-4">VivaWallet</h4>
         <p>Your gateway to the decentralized world.</p>
       </div>
-      <div class="flex space-x-6 items-center justify-center">
+      <div class="flex space-x-6 items-center justify-end">
         <a href="https://x.com/VivaWallet" target="_blank" rel="noopener noreferrer" aria-label="X">
           <img src="logos/community-x.png" alt="X" class="w-6 h-6"/>
         </a>
