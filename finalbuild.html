@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VivaWallet</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="logos/viva logo.svg" />
+  <link rel="shortcut icon" href="logos/favicon.ico" type="image/x-icon" />
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            headlineblue: '#04022c',
+            headlinebright: '#2416b8',
+            darkblue: '#0A2540',
+            darkbg: 'rgb(14,18,26)'
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          }
+        },
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <!-- Lottie -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <!-- Solana Web3.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.95.1/lib/index.iife.min.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .futuristic-window {backdrop-filter: blur(20px);background:rgba(10,37,64,0.92);border:1px solid #2416b8;transition:transform 0.3s cubic-bezier(.4,2,.3,1);}
+    .futuristic-window.scale-100 { transform: scale(1);}
+    .wallet-modal-shadow {box-shadow:0 10px 50px 0 rgba(40,50,120,0.40);}
+    .wallet-card {background:rgba(14,18,26,1);border-radius:16px;}
+    .quick-action {background:rgba(36,22,184,0.16);}
+    .copy-hover:hover {background:rgba(36,22,184,0.18);}
+    .wallet-balance-eur {font-size:2.5rem;font-weight:800;}
+    .gradient-text {
+      background: linear-gradient(90deg, #e0eaff 25%, #6d92fa 70%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .carousel {
+      width: 100%;
+      height: 14rem;
+      overflow: hidden;
+      position: relative;
+      margin: 0.25rem 0;
+    }
+    .carousel-track {
+      display: flex;
+      align-items: center;
+      animation: marquee 90s linear infinite;
+    }
+    .carousel-track img {
+      flex: 0 0 calc((100% - 10rem)/5);
+      margin: 0 0.5rem;
+      width: auto;
+      height: 14rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease-out forwards;
+      animation-delay: calc(0.15s * var(--i));
+    }
+    .carousel-track img[alt="CoinGecko"] {
+      height: 5rem;
+      margin-top: 0.5rem;
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-90%); }
+    }
+    @keyframes fadeUp {
+      0%   { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-black text-white font-sans">
+<!-- NAVBAR -->
+<nav class="fixed w-full bg-transparent backdrop-filter backdrop-blur-lg text-white z-50">
+  <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="/" class="flex items-center space-x-2">
+      <img src="logos/viva logo.svg" alt="VivaWallet Logo" class="w-8 h-8"/>
+      <span class="text-2xl font-bold">VivaWallet</span>
+    </a>
+    <div class="space-x-6">
+      <a href="#mission" class="hover:text-gray-300">Our Mission</a>
+      <a href="#services" class="hover:text-gray-300">Wallet</a>
+      <a href="#developer" class="hover:text-gray-300">Features</a>
+      <a href="#blog" class="hover:text-gray-300">Blogs</a>
+      <button id="open-wallet-modal"
+        class="px-4 py-2 border border-white rounded-lg text-white hover:scale-105 transition align-middle">
+        Wallet
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="pt-24 pb-32 bg-[#07052b] text-white">
+  <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+    <div class="space-y-6">
+      <lottie-player
+        src="Jsons/First.json"
+        background="transparent"
+        speed="1"
+        autoplay
+        renderer="svg"
+        class="w-32 h-32"
+      ></lottie-player>
+      <h1 class="text-4xl sm:text-5xl font-extrabold">
+        The simple, secure wallet to experience the decentralized web
+      </h1>
+      <p class="text-lg sm:text-xl">
+        VivaWallet keeps your digital assets safe and accessible, with a user-friendly experience for everyone.
+      </p>
+      <div class="flex gap-4">
+        <button
+          id="open-join-modal"
+          class="inline-block px-6 py-3 bg-white text-black font-semibold rounded-lg transform transition hover:scale-105"
+        >
+          Join
+        </button>
+        <button
+          id="generate-wallet-btn"
+          class="inline-block px-6 py-3 border-2 border-white text-white font-semibold rounded-lg transform transition hover:scale-105"
+        >
+          Wallet
+        </button>
+      </div>
+    </div>
+    <div class="flex justify-center md:justify-end">
+      <lottie-player
+        src="Jsons/web 3.json"
+        background="transparent"
+        speed="1"
+        loop
+        autoplay
+        renderer="svg"
+        class="w-full max-w-md md:max-w-xl h-auto md:h-96 mb-4 transform md:translate-x-20"
+      ></lottie-player>
+    </div>
+  </div>
+</section>
+
+<!-- Wallet Modal -->
+<div id="wallet-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black bg-opacity-80">
+  <div class="futuristic-window wallet-modal-shadow p-0 w-full max-w-md rounded-2xl relative scale-95 transition-transform duration-300 overflow-hidden">
+    <button id="close-wallet-modal" class="absolute top-5 right-5 text-2xl text-white hover:text-red-400 z-10">&times;</button>
+    <div id="wallet-content" class="p-0"></div>
+  </div>
+</div>
+
+<!-- Join Modal -->
+<div id="join-modal"
+  class="fixed inset-0 bg-black bg-opacity-80 hidden flex items-center justify-center z-50">
+  <div class="futuristic-window p-8 w-full max-w-lg rounded-2xl relative flex flex-col items-center text-center scale-95 transition-transform duration-300">
+    <button id="close-join-modal" class="absolute top-4 right-4 text-white text-2xl hover:text-red-400 transition">&times;</button>
+    <div class="mb-6">
+      <h2 class="text-2xl font-bold mb-4 text-white text-glow">Yes – We’re Going Live.</h2>
+      <p class="text-gray-200 mb-6">
+        After careful consideration, we believe becoming part of Web3 takes more than just a wallet, it takes a community.<br><br>
+        With that being said, $VIVA is the direct indication of our community’s and company’s performance within the Crypto and Web3 space. Become part of it below.
+      </p>
+    </div>
+    <div class="flex modal-btn-row gap-4 w-full justify-center items-center">
+      <a href="https://your-buy-link.com" target="_blank" rel="noopener noreferrer"
+        class="button-white-glow flex-1 px-4 py-2 rounded-lg font-semibold text-base bg-black text-white text-center border-2 border-white">
+        Buy $VIVA
+      </a>
+      <a href="https://forms.gle/ETY1Rr9nGihD1wNdA" target="_blank" rel="noopener noreferrer"
+        class="button-white-glow flex-1 px-4 py-2 rounded-lg font-semibold text-base bg-black text-white text-center border-2 border-white">
+        Early Access
+      </a>
+    </div>
+    <div class="mt-8 text-gray-300 text-base font-medium">
+      Become part of something worthy
+    </div>
+  </div>
+</div>
+
+<!-- Our Mission -->
+<section id="mission" class="py-20 bg-darkbg">
+  <div class="container mx-auto px-6">
+    <h2 class="text-3xl font-bold mb-10 text-center text-white">Our Mission</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div class="bg-black/50 backdrop-blur-md rounded-2xl p-8 border border-gray-600 transition glow-card">
+        <h3 class="text-xl font-bold mb-3 text-white text-glow">Empower Every User</h3>
+        <h4 class="text-lg font-extrabold mb-2 text-white">Empowering You to Own Your Digital Future</h4>
+        <p class="text-gray-200">
+          We believe that true ownership of value belongs in your hands, not behind closed doors.
+          VivaWallet’s mission is to give everyone—from the first-time crypto explorer to the seasoned defi developer—
+          simple, secure tools to store, send, and grow their digital assets. Through intuitive design and best-in-class security,
+          we turn complex blockchain interactions into everyday actions.
+        </p>
+      </div>
+      <div class="bg-black/50 backdrop-blur-md rounded-2xl p-8 border border-gray-600 transition glow-card">
+        <h3 class="text-xl font-bold mb-3 text-white text-glow">Security First, Always</h3>
+        <h4 class="text-lg font-extrabold mb-2 text-white">Security at the Core of Decentralization</h4>
+        <p class="text-gray-200">
+          At VivaWallet, protecting your assets isn’t an afterthought—it’s our foundation. We combine military-grade encryption,
+          zero-knowledge key management, and continuously audited smart contracts so that you can transact with confidence.
+          Our mission is to raise the bar for wallet security, making advanced safeguards accessible to everyone.
+        </p>
+      </div>
+      <div class="bg-black/50 backdrop-blur-md rounded-2xl p-8 border border-gray-600 transition glow-card">
+        <h3 class="text-xl font-bold mb-3 text-white text-glow">Bridge to Web3</h3>
+        <h4 class="text-lg font-extrabold mb-2 text-white">Your Bridge to an Open, Permissionless Web</h4>
+        <p class="text-gray-200">
+          Decentralized applications should be as easy to use as your favorite app store.
+          Our goal is to tear down the technical walls of Web3 and usher you into a world of peer-to-peer finance,
+          decentralized identity, and borderless marketplaces. With VivaWallet, the power of blockchain is literally
+          at your fingertips—no node-running or command lines required.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Our Solutions & Bottom Carousel -->
+<section id="services" class="py-4 border-t border-gray-700 bg-darkbg">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-8">Our Solutions</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-2">
+      <div class="p-8 bg-black/50 backdrop-blur-md rounded-2xl border border-gray-500 transition glow-card">
+        <lottie-player src="Jsons/wallet animation.json" background="transparent" speed="1" loop autoplay renderer="svg" class="w-20 h-20 mx-auto mb-4"></lottie-player>
+        <h3 class="font-semibold text-xl mb-2">Wallet</h3>
+        <p class="text-gray-300">Store, send, and receive digital assets with industry-leading encryption and user-friendly interfaces across devices.</p>
+      </div>
+      <div class="p-8 bg-black/50 backdrop-blur-md rounded-2xl border border-gray-500 transition glow-card">
+        <lottie-player src="Jsons/logo.json" background="transparent" speed="1" loop autoplay renderer="svg" class="w-20 h-20 mx-auto mb-4"></lottie-player>
+        <h3 class="font-semibold text-xl mb-2">Crypto Loans</h3>
+        <p class="text-gray-300">Leverage your crypto holdings to secure fast, transparent loans without credit checks or hidden fees.</p>
+      </div>
+      <div class="p-8 bg-black/50 backdrop-blur-md rounded-2xl border border-gray-500 transition glow-card">
+        <lottie-player src="Jsons/web 3 animation.json" background="transparent" speed="1" loop autoplay renderer="svg" class="w-20 h-20 mx-auto mb-4"></lottie-player>
+        <h3 class="font-semibold text-xl mb-2">Web3</h3>
+        <p class="text-gray-300">Seamlessly interact with decentralized applications and smart contracts directly from your wallet.</p>
+      </div>
+    </div>
+    <!-- carousel -->
+    <div class="carousel">
+      <div id="carousel-track" class="carousel-track"></div>
+    </div>
+    <script>
+      (function(){
+        const items = [
+          { src: "Untitled_design_42.png", alt: "Dex Screener" },
+          { src: "Untitled_design_43.png", alt: "Solana" },
+          { src: "Untitled_design_44.png", alt: "CoinMarketCap" },
+          { src: "Untitled_design_45.png", alt: "CoinTracker" },
+          { src: "Untitled_design_46.png", alt: "J.P. Morgan" },
+          { src: "Binance-Logo.png",     alt: "Binance" },
+          { src: "CoinGecko.png",        alt: "CoinGecko" }
+        ];
+        const track = document.getElementById("carousel-track");
+        track.innerHTML = "";
+        for (let i = 1; i <= 70; i++) {
+          const { src, alt } = items[(i - 1) % items.length];
+          const img = document.createElement("img");
+          img.style.setProperty("--i", i);
+          img.src = `sliding wheel/${src}`;
+          img.alt = alt;
+          track.appendChild(img);
+        }
+      })();
+    </script>
+  </div>
+</section>
+
+<!-- Developer Friendly Section (unchanged) -->
+<section id="developer" class="py-8 bg-darkbg">
+  <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+    <div class="p-6 bg-black/50 backdrop-blur-md rounded-2xl">
+      <h2 class="text-3xl font-bold mb-2">Developer Friendly</h2>
+      <p class="mb-4 text-gray-300">
+        Comprehensive SDKs and APIs to integrate VivaWallet into your project with ease.
+      </p>
+      <button id="open-docs"
+              class="px-6 py-3 bg-white text-black rounded-lg transition hover:scale-105 hover:shadow-lg">
+        Read the Docs
+      </button>
+    </div>
+    <lottie-player
+      src="Jsons/doc.json"
+      background="transparent"
+      speed="1"
+      loop
+      autoplay
+      renderer="svg"
+      class="w-full max-w-md md:max-w-sm h-48 md:h-64 mx-auto"
+    ></lottie-player>
+  </div>
+  <!-- Modal Backdrop + Window remains unchanged -->
+  <div id="docs-modal"
+       class="fixed inset-0 bg-black bg-opacity-75 hidden flex items-center justify-center z-50"
+       aria-modal="true">
+    <div class="futuristic-window p-8 w-11/12 max-w-5xl max-h-[90vh] overflow-y-auto relative">
+      <button id="close-docs" class="absolute top-4 right-4 text-white text-2xl">×</button>
+      <div id="docs-content" class="prose prose-invert text-gray-200">
+        <h3>Overview</h3>
+        <p>Welcome to the Crypto APIs Technical Documentation. Below is a detailed breakdown of our core products, each designed to address specific blockchain development needs.</p>
+        <h4>Node as a Service (NaaS)</h4>
+        <p><strong>Purpose:</strong> Deploy scalable blockchain infrastructure with zero operational overhead.</p>
+        <ul>
+          <li><strong>Shared Nodes:</strong> Multi-tenant, cost-effective nodes for lightweight workloads.</li>
+          <li><strong>Dedicated Nodes:</strong> High-performance, isolated nodes for mission-critical applications.</li>
+          <li><strong>Supported Blockchains:</strong> Ethereum, Bitcoin, BNB Chain, Solana, and 20+ others.</li>
+        </ul>
+        <h4>Address Latest</h4>
+        <ul>
+          <li><strong>Retrieve real-time address activity</strong> from the past 14 days. Data includes balances, transactions, token holdings.</li>
+          <li><strong>Supported Chains:</strong> Solana, Bitcoin, Ethereum Polygon and 10+ others.</li>
+          <li><strong>Features:</strong> Updates with 1-block confirmation.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trusted by -->
+<section id="trusted" class="py-20 bg-darkbg">
+  <div class="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+    <div class="p-6 bg-[#07052b] rounded-2xl border border-gray-700 shadow-lg shadow-cyan-500/10 flex flex-col items-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:shadow-cyan-400/20">
+      <lottie-player src="Jsons/hexagon connected.json" background="transparent" speed="1" loop autoplay renderer="svg"
+                     class="w-20 h-20 mb-4"></lottie-player>
+      <h3 class="text-xl font-semibold">200M people</h3>
+    </div>
+    <div class="p-6 bg-[#07052b] rounded-2xl border border-gray-700 shadow-lg shadow-cyan-500/10 flex flex-col items-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:shadow-cyan-400/20">
+      <lottie-player src="Jsons/cubecilinder.json" background="transparent" speed="1" loop autoplay renderer="svg"
+                     class="w-20 h-20 mb-4"></lottie-player>
+      <h3 class="text-xl font-semibold">Founded in 2010</h3>
+    </div>
+    <div class="p-6 bg-[#07052b] rounded-2xl border border-gray-700 shadow-lg shadow-cyan-500/10 flex flex-col items-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:shadow-cyan-400/20">
+      <lottie-player src="Jsons/Honeycombcrypto.json" background="transparent" speed="1" loop autoplay renderer="svg"
+                     class="w-20 h-20 mb-4"></lottie-player>
+      <h3 class="text-xl font-semibold">Independently Audited</h3>
+    </div>
+    <div class="p-6 bg-[#07052b] rounded-2xl border border-gray-700 shadow-lg shadow-cyan-500/10 flex flex-col items-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:shadow-cyan-400/20">
+      <lottie-player src="Jsons/Documentation.json" background="transparent" speed="1" loop autoplay renderer="svg"
+                     class="w-20 h-20 mb-4"></lottie-player>
+      <h3 class="text-xl font-semibold">ISO Certified</h3>
+    </div>
+    <div class="p-6 bg-[#07052b] rounded-2xl border border-gray-700 shadow-lg shadow-cyan-500/10 flex flex-col items-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:shadow-cyan-400/20">
+      <lottie-player src="Jsons/weird crypto formation.json" background="transparent" speed="1" loop autoplay renderer="svg"
+                     class="w-20 h-20 mb-4"></lottie-player>
+      <h3 class="text-xl font-semibold">Top Reviews</h3>
+    </div>
+  </div>
+</section>
+
+<!-- Blog and Footer -->
+<section id="blog" class="py-20 bg-darkbg">
+  <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 items-start gap-12">
+    <div>
+      <h2 class="text-3xl font-bold mb-4">Latest Blog Posts</h2>
+      <ul class="list-disc list-inside space-y-2 text-lg">
+        <li>
+          <a href="https://www.viva.com/en-eu/blog/vivacom-becomes-the-first-tech-bank-in-europe-for-businesses"
+            class="font-semibold hover:underline underline-offset-2"
+            target="_blank" rel="noopener noreferrer">
+            Viva.com Becomes the 1st Tech Bank in Europe for Businesses
+          </a>
+        </li>
+        <li>
+          <a href="https://www.viva.com/en-eu/blog/vivacom-acquires-majority-stake-in-fiskaltrust"
+            class="font-semibold hover:underline underline-offset-2"
+            target="_blank" rel="noopener noreferrer">
+            Viva.com Acquires Majority Stake in Fiskaltrust
+          </a>
+        </li>
+        <li>
+          <a href="https://www.viva.com/en-eu/blog/viva.com-rolls-out-tap-to-pay-on-iphone-to-five-more-countries"
+            class="font-semibold hover:underline underline-offset-2"
+            target="_blank" rel="noopener noreferrer">
+            Viva.com Rolls Out Tap to Pay on iPhone to Five More Countries 
+          </a>
+        </li>
+      </ul>
+    </div>
+    <lottie-player
+      src="Jsons/news2.json"
+      background="transparent"
+      speed="1"
+      loop
+      autoplay
+      renderer="svg"
+      class="w-full max-w-md mx-auto h-64 md:h-80"
+    ></lottie-player>
+  </div>
+</section>
+
+<footer class="py-12 bg-darkbg">
+  <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div>
+      <h4 class="font-semibold text-lg mb-4">VivaWallet</h4>
+      <p>Your gateway to the decentralized world.</p>
+    </div>
+    <div class="flex space-x-6 items-center justify-end">
+      <a href="https://x.com/VivaWallet" target="_blank" rel="noopener noreferrer" aria-label="X">
+        <img src="logos/community-x.png" alt="X" class="w-6 h-6"/>
+      </a>
+      <a href="https://www.viva.com/en-eu" target="_blank" rel="noopener noreferrer" aria-label="Viva Wallet">
+        <img src="logos/community-viva.png" alt="Viva Wallet" class="w-6 h-6"/>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- WALLET MODAL SCRIPTS -->
+<script>
+// ================== COINGECKO API FOR EUR ==================
+let solPriceEUR = 0, solChange = 0;
+async function fetchSolPrice() {
+  try {
+    const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=eur&include_24hr_change=true");
+    const json = await res.json();
+    solPriceEUR = json.solana.eur;
+    solChange = json.solana.eur_24h_change;
+  } catch {
+    solPriceEUR = 0; solChange = 0;
+  }
+}
+
+// ============ SOLANA WALLET + LOCAL STORAGE ==============
+function saveUser(email, password, keypair) {
+  localStorage.setItem('vivaUser', JSON.stringify({
+    email, password, publicKey: keypair.publicKey.toBase58(), secretKey: Array.from(keypair.secretKey)
+  }));
+}
+function loadUser() {
+  const d = localStorage.getItem('vivaUser');
+  if (!d) return null;
+  const { email, password, publicKey, secretKey } = JSON.parse(d);
+  return { email, password, publicKey, keypair: solanaWeb3.Keypair.fromSecretKey(Uint8Array.from(secretKey)) };
+}
+function logoutUser() {
+  localStorage.removeItem('vivaUser');
+  renderWalletModal();
+}
+
+// ==================== MODAL LOGIC / UI SWITCH ================
+const walletModal = document.getElementById('wallet-modal');
+const openWalletBtn = document.getElementById('open-wallet-modal');
+const closeWalletBtn = document.getElementById('close-wallet-modal');
+const walletContent = document.getElementById('wallet-content');
+
+openWalletBtn.onclick = () => {
+  renderWalletModal();
+  walletModal.classList.remove('hidden');
+  setTimeout(() => walletModal.querySelector('.futuristic-window').classList.add('scale-100'), 10);
+};
+closeWalletBtn.onclick = () => {
+  walletModal.querySelector('.futuristic-window').classList.remove('scale-100');
+  setTimeout(() => walletModal.classList.add('hidden'), 200);
+};
+walletModal.onclick = e => {
+  if (e.target === walletModal) {
+    walletModal.querySelector('.futuristic-window').classList.remove('scale-100');
+    setTimeout(() => walletModal.classList.add('hidden'), 200);
+  }
+};
+
+// Modal rendering logic
+function renderWalletModal() {
+  const user = loadUser();
+  if (!user) {
+    walletContent.innerHTML = `
+      <div class="p-8">
+        <h2 class="text-2xl font-bold mb-4 text-white">Create Wallet</h2>
+        <form id="signup-form" class="space-y-4">
+          <input type="email" id="signup-email" placeholder="Email" required class="w-full px-4 py-2 rounded-lg text-black" />
+          <input type="password" id="signup-password" placeholder="Password" required class="w-full px-4 py-2 rounded-lg text-black" />
+          <button type="submit" class="px-6 py-3 bg-white text-black font-semibold rounded-lg w-full">Sign Up & Create Wallet</button>
+        </form>
+      </div>
+    `;
+    document.getElementById('signup-form').onsubmit = function(e) {
+      e.preventDefault();
+      const email = document.getElementById('signup-email').value.trim();
+      const password = document.getElementById('signup-password').value;
+      const keypair = solanaWeb3.Keypair.generate();
+      saveUser(email, password, keypair);
+      renderWalletDashboard();
+    };
+  } else {
+    renderWalletDashboard();
+  }
+}
+
+async function renderWalletDashboard() {
+  const user = loadUser();
+  await fetchSolPrice();
+  const conn = new solanaWeb3.Connection('https://api.mainnet-beta.solana.com', 'confirmed');
+  let balance = 0;
+  try { balance = await conn.getBalance(user.keypair.publicKey) / solanaWeb3.LAMPORTS_PER_SOL; } catch {}
+  const euroValue = (balance * solPriceEUR).toFixed(2);
+  const changeStr = solChange > 0
+    ? `<span class="text-green-400">+${solChange.toFixed(2)}%</span>`
+    : `<span class="text-red-400">${solChange.toFixed(2)}%</span>`;
+
+  // Account initials
+  const initials = user.email.split('@')[0].split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+
+  walletContent.innerHTML = `
+    <div class="bg-headlineblue w-full px-6 pt-7 pb-4 text-white relative" style="border-bottom:1.5px solid #2416b8;">
+      <div class="flex justify-between items-center mb-2">
+        <div class="flex items-center space-x-2">
+          <span class="bg-headlinebright rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold">${initials}</span>
+          <div>
+            <span class="font-semibold">${user.email.split('@')[0]}</span>
+            <span id="copy-wallet" class="copy-hover ml-2 cursor-pointer px-1 rounded hover:text-headlinebright" title="Copy address">📋</span>
+          </div>
+        </div>
+        <button onclick="logoutUser()" class="text-gray-400 hover:text-red-400 transition">Log out</button>
+      </div>
+      <div class="wallet-balance-eur gradient-text mb-1">€${euroValue}</div>
+      <div class="mb-2 text-lg font-semibold text-white">+${(euroValue > 0 ? (euroValue/solPriceEUR).toFixed(5) : '0.00000')} SOL</div>
+      <div class="mb-4 text-green-300 font-bold">${changeStr}</div>
+      <div class="grid grid-cols-2 gap-2 mb-2">
+        <button class="quick-action py-3 flex flex-col items-center rounded-lg font-semibold text-sm" id="receive-btn">
+          <span>📥</span>Receive
+        </button>
+        <button class="quick-action py-3 flex flex-col items-center rounded-lg font-semibold text-sm" id="send-btn">
+          <span>📤</span>Send
+        </button>
+      </div>
+    </div>
+    <div class="p-6 bg-darkbg">
+      <div class="wallet-card flex items-center mb-4 p-4">
+        <img src="logos/solana-sol-logo.svg" class="w-10 h-10 mr-3" alt="Solana"/>
+        <div class="flex-1">
+          <div class="font-bold">Solana</div>
+          <div class="text-sm text-gray-400">${balance.toFixed(5)} SOL</div>
+        </div>
+        <div class="text-right">
+          <div class="font-semibold">€${euroValue}</div>
+          <div class="text-xs text-green-400">${changeStr}</div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <h3 class="text-lg font-bold mb-2">Account Details</h3>
+        <div class="bg-black/60 p-3 rounded text-sm">
+          <div><b>Email:</b> ${user.email}</div>
+          <div class="break-words"><b>Public Key:</b> <span style="font-family:monospace">${user.publicKey}</span></div>
+        </div>
+      </div>
+    </div>
+    <div id="wallet-extra" class="p-6 pt-0 text-center"></div>
+  `;
+
+  // Copy address
+  document.getElementById('copy-wallet').onclick = () => {
+    navigator.clipboard.writeText(user.publicKey);
+    document.getElementById('copy-wallet').innerText = "✅";
+    setTimeout(() => {document.getElementById('copy-wallet').innerText = "📋";}, 1000);
+  };
+
+  // Receive: show address QR
+  document.getElementById('receive-btn').onclick = () => {
+    document.getElementById('wallet-extra').innerHTML = `
+      <div class="mb-3 font-semibold">Wallet Address:</div>
+      <div class="font-mono text-xs bg-gray-900 rounded-lg p-2 mb-3">${user.publicKey}</div>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?data=${user.publicKey}&amp;size=120x120" class="mx-auto rounded shadow" alt="QR code"/>
+      <div class="mt-2 text-yellow-400 font-semibold">2 SOL minimum amount required for transfers</div>
+      <div class="mt-2"><button onclick="document.getElementById('wallet-extra').innerHTML=''" class="text-headlinebright hover:underline">Close</button></div>
+    `;
+  };
+
+  // Send: show send form
+  document.getElementById('send-btn').onclick = () => {
+    document.getElementById('wallet-extra').innerHTML = `
+      <div class="mb-2 font-semibold">Send SOL</div>
+      <input id="send-address" type="text" placeholder="Recipient address" class="w-full px-2 py-2 mb-2 rounded text-black" autocomplete="off"/>
+      <input id="send-amount" type="number" min="0.01" step="0.01" placeholder="Amount (SOL)" class="w-full px-2 py-2 mb-2 rounded text-black"/>
+      <button id="send-money-btn" class="px-4 py-2 bg-headlinebright text-white rounded font-bold w-full">Send</button>
+      <div class="mt-2 text-yellow-400 font-semibold">2 SOL minimum amount required for transfers</div>
+      <div id="send-status" class="mt-2 text-sm"></div>
+      <div class="mt-2"><button onclick="document.getElementById('wallet-extra').innerHTML=''" class="text-headlinebright hover:underline">Cancel</button></div>
+    `;
+    document.getElementById('send-money-btn').onclick = async () => {
+      const conn = new solanaWeb3.Connection('https://api.mainnet-beta.solana.com', 'confirmed');
+      const recipient = document.getElementById('send-address').value.trim();
+      const amount = parseFloat(document.getElementById('send-amount').value);
+      const status = document.getElementById('send-status');
+      if (!recipient || isNaN(amount) || amount < 2) {
+        status.innerText = "Please enter a valid address. Minimum amount is 2 SOL.";
+        return;
+      }
+      try {
+        status.innerText = "Sending...";
+        const tx = new solanaWeb3.Transaction().add(
+          solanaWeb3.SystemProgram.transfer({
+            fromPubkey: user.keypair.publicKey,
+            toPubkey: new solanaWeb3.PublicKey(recipient),
+            lamports: amount * solanaWeb3.LAMPORTS_PER_SOL
+          })
+        );
+        const signature = await solanaWeb3.sendAndConfirmTransaction(conn, tx, [user.keypair]);
+        status.innerHTML = `<span class="text-green-400">Sent! <a href="https://explorer.solana.com/tx/${signature}?cluster=mainnet-beta" target="_blank" class="underline">View TX</a></span>`;
+        setTimeout(renderWalletDashboard, 3000);
+      } catch (e) {
+        status.innerText = "Send failed: " + (e.message || e);
+      }
+    };
+  };
+}
+
+// =========== JOIN MODAL OPEN BUTTON ==========
+document.getElementById("open-join-modal").onclick = () => {
+  document.getElementById("join-modal").classList.remove("hidden");
+};
+document.getElementById("close-join-modal").onclick = () => {
+  document.getElementById("join-modal").classList.add("hidden");
+};
+document.getElementById("generate-wallet-btn").onclick = openWalletBtn.onclick;
+
+// =========== DOCS MODAL OPEN/CLOSE ==========
+const docsModal = document.getElementById('docs-modal');
+const openDocsBtn = document.getElementById('open-docs');
+const closeDocsBtn = document.getElementById('close-docs');
+if (openDocsBtn && docsModal && closeDocsBtn) {
+  openDocsBtn.onclick = () => docsModal.classList.remove('hidden');
+  closeDocsBtn.onclick = () => docsModal.classList.add('hidden');
+  docsModal.onclick = e => {
+    if (e.target === docsModal) docsModal.classList.add('hidden');
+  };
+}
+</script>
