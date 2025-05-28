@@ -156,6 +156,27 @@
   </div>
 </div>
 
+
+<!-- AI Trading Modal -->
+<div id="ai-trading-modal-hover" class="fixed inset-0 z-[999] hidden items-center justify-center bg-black/60">
+  <div class="bg-[#181b26] rounded-2xl shadow-2xl max-w-xl w-full p-8 md:p-10 border border-white/10 flex flex-col items-center space-y-6 relative text-center">
+    <button id="close-ai-trading-modal-hover" class="absolute top-5 right-6 text-gray-400 hover:text-white text-2xl font-bold leading-none">&times;</button>
+    <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">AI Trading Feature Launch</h2>
+    <p class="text-base md:text-lg text-gray-200">
+      To ensure the highest level of security, accuracy, and performance, our team is currently conducting final-stage audits and optimization of the AI Trading feature.
+    </p>
+    <p class="text-base md:text-lg text-gray-200">
+      We are rigorously testing our algorithms and infrastructure under real-world trading conditions to guarantee a seamless experience for all users.
+    </p>
+    <p class="text-base md:text-lg text-gray-200">
+      The two-day window allows us to complete these critical quality assurance steps, resolve any last-minute issues, and launch with full confidence in the feature’s reliability and safety.
+    </p>
+    <p class="text-base md:text-lg text-blue-400 font-semibold">
+      Thank you for your patience. The AI Trading feature will be available in 2 days!
+    </p>
+  </div>
+</div>
+
 <!-- Join Modal -->
 <div id="join-modal"
   class="fixed inset-0 bg-black bg-opacity-80 hidden flex items-center justify-center z-50">
@@ -183,7 +204,6 @@
     </div>
   </div>
 </div>
-
 <!-- Our Mission -->
 <section id="mission" class="py-20 bg-darkbg">
   <div class="container mx-auto px-6">
@@ -444,7 +464,7 @@ function logoutUser() {
   renderWalletModal();
 }
 
-// ==================== MODAL LOGIC / UI SWITCH ================
+// =================== MODAL LOGIC / UI SWITCH ==================
 const walletModal = document.getElementById('wallet-modal');
 const openWalletBtn = document.getElementById('open-wallet-modal');
 const closeWalletBtn = document.getElementById('close-wallet-modal');
@@ -466,7 +486,21 @@ walletModal.onclick = e => {
   }
 };
 
-// Modal rendering logic
+// ======== COUNTDOWN CONFIG FOR AI TRADING =======
+const aiTradingReleaseTimestamp = Date.now() + 2 * 24 * 60 * 60 * 1000; // 2 days from now
+
+function getCountdownParts() {
+  let now = Date.now();
+  let msLeft = Math.max(aiTradingReleaseTimestamp - now, 0);
+  let totalSeconds = Math.floor(msLeft / 1000);
+  let d = Math.floor(totalSeconds / 86400);
+  let h = Math.floor((totalSeconds % 86400) / 3600);
+  let m = Math.floor((totalSeconds % 3600) / 60);
+  let s = totalSeconds % 60;
+  return [d, h, m, s].map(v => String(v).padStart(2, "0"));
+}
+
+// ================== WALLET MODAL / DASHBOARD ==================
 function renderWalletModal() {
   const user = loadUser();
   if (!user) {
@@ -503,15 +537,13 @@ async function renderWalletDashboard() {
   const changeStr = solChange > 0
     ? `<span class="text-green-400">+${solChange.toFixed(2)}%</span>`
     : `<span class="text-red-400">${solChange.toFixed(2)}%</span>`;
-
-  // Account initials
   const initials = user.email.split('@')[0].split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
 
   walletContent.innerHTML = `
     <div class="bg-headlineblue w-full px-6 pt-7 pb-4 text-white relative" style="border-bottom:1.5px solid #2416b8;">
       <div class="flex justify-between items-center mb-2">
         <div class="flex items-center space-x-2">
-          <span class="bg-headlinebright rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold">${initials}</span>
+          <span class="bg-headlinebright rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold">${user.email.split('@')[0].split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span>
           <div>
             <span class="font-semibold">${user.email.split('@')[0]}</span>
             <span id="copy-wallet" class="copy-hover ml-2 cursor-pointer px-1 rounded hover:text-headlinebright" title="Copy address">📋</span>
@@ -519,15 +551,23 @@ async function renderWalletDashboard() {
         </div>
         <button onclick="logoutUser()" class="text-gray-400 hover:text-red-400 transition">Log out</button>
       </div>
-      <div class="wallet-balance-eur gradient-text mb-1">€${euroValue}</div>
-      <div class="mb-2 text-lg font-semibold text-white">+${(euroValue > 0 ? (euroValue/solPriceEUR).toFixed(5) : '0.00000')} SOL</div>
-      <div class="mb-4 text-green-300 font-bold">${changeStr}</div>
-      <div class="grid grid-cols-2 gap-2 mb-2">
+      <div class="wallet-balance-eur gradient-text mb-1">€0.00</div>
+      <div class="mb-2 text-lg font-semibold text-white">+0.00000 SOL</div>
+      <div class="mb-4 text-green-300 font-bold">+0.00%</div>
+      <div class="grid grid-cols-3 gap-2 mb-2">
         <button class="quick-action py-3 flex flex-col items-center rounded-lg font-semibold text-sm" id="receive-btn">
           <span>📥</span>Receive
         </button>
         <button class="quick-action py-3 flex flex-col items-center rounded-lg font-semibold text-sm" id="send-btn">
           <span>📤</span>Send
+        </button>
+        <button id="ai-trading-btn"
+          class="quick-action py-3 flex flex-col items-center rounded-lg font-semibold text-sm relative select-none cursor-pointer"
+          aria-disabled="false"
+          style="position:relative;">
+          <span>🤖</span>
+          <span class="block">AI Trading</span>
+          <span id="ai-timer" class="mt-1 text-xs font-bold text-yellow-300"></span>
         </button>
       </div>
     </div>
@@ -560,6 +600,40 @@ async function renderWalletDashboard() {
     document.getElementById('copy-wallet').innerText = "✅";
     setTimeout(() => {document.getElementById('copy-wallet').innerText = "📋";}, 1000);
   };
+
+  // AI Trading Timer logic
+  updateAITimer();
+  if (window._aiTimerInterval) clearInterval(window._aiTimerInterval);
+  window._aiTimerInterval = setInterval(updateAITimer, 1000);
+
+  function updateAITimer() {
+    const timerEl = document.getElementById("ai-timer");
+    if (!timerEl) return;
+    let [d, h, m, s] = getCountdownParts();
+    timerEl.textContent = `${d}D ${h}H ${m}M ${s}S`;
+  }
+ // --- AI TRADING MODAL LOGIC (Click, not hover) ---
+  setTimeout(() => {
+    const aiBtn = document.getElementById("ai-trading-btn");
+    const modal = document.getElementById("ai-trading-modal-hover");
+    const closeBtn = document.getElementById("close-ai-trading-modal-hover");
+    if (aiBtn && modal && closeBtn) {
+      aiBtn.onclick = () => {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      };
+      closeBtn.onclick = () => {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      };
+      modal.onclick = (e) => {
+        if (e.target === modal) {
+          modal.classList.add("hidden");
+          modal.classList.remove("flex");
+        }
+      };
+    }
+  }, 100);
 
   // Receive: show address QR
   document.getElementById('receive-btn').onclick = () => {
